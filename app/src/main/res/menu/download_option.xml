@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+        <!-- Other menu items -->
+        <item
+            android:id="@+id/download1"
+            android:textAppearance="@style/MyMenuTextStyle"
+            android:title="Download as PDF"
+            />
+        <item
+            android:id="@+id/download2"
+            android:textAppearance="@style/MyMenuTextStyle"
+            android:title="Download in XCEL"
+            />
+
+
+
+</menu>

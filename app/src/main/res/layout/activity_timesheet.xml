@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TimesheetActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/toolbar_form_gradient"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:navigationIcon="@drawable/baseline_west_24"
+        app:titleTextColor="@color/white">
+
+        <!-- Main LinearLayout to arrange items -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingEnd="16dp">
+
+            <!-- Horizontal container for icon and text -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start|top"
+                android:paddingTop="16dp">
+
+                <!-- Text next to the icon -->
+                <TextView
+                    android:id="@+id/toolbar_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text=" "
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_margin="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:scrollbars="none"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/cardView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- Date Field in CardView -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/dateOfJoin"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        app:hintTextColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:hint="Date"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/baseline_calendar_month_24">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/dateOfJoin2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Zone Field in CardView -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/zone"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:hint="Zone"
+                        app:hintTextColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        app:boxStrokeWidth="0dp"
+                        android:paddingStart="15dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:endIconMode="dropdown_menu">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/zone2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Shift Field in CardView -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/shift"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:hint="Shift"
+                        app:hintTextColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        app:boxStrokeWidth="0dp"
+                        android:paddingStart="15dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:endIconMode="dropdown_menu">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/shift2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Employee Code Field in CardView -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="8dp"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/employeeCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Employee Code">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/employeeCode2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Employee Name Field in CardView -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="8dp"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/employeeName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Employee Name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/employeeName2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Employee Department Field in CardView -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="8dp"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/department"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Department">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/department2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Employee Category Field in CardView -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="8dp"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/Category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Category">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/Category2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Supervisor Field in CardView -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/supervisor"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        android:hint="Supervisor"
+                        app:hintTextColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/supervisor2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/buttonLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView1"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/search"
+                            android:layout_width="200dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Search"
+                            android:translationZ="5dp"
+                            android:textColor="@color/white"
+                            android:elevation="10dp"
+                            tools:ignore="TouchTargetSizeCheck" />
+
+                        <ProgressBar
+                            android:id="@+id/searchProgressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/button"
+                            android:visibility="gone"
+                             />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:alpha="0.8"
+                app:layout_constraintTop_toBottomOf="@id/cardView1"
+                android:background="?attr/cardBackgroundColor"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:ignore="MissingConstraints">
+
+                        <!-- Fixed Columns TableLayout -->
+                        <TableLayout
+                            android:id="@+id/fixedTable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            >
+
+                            <!-- Table Header -->
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Date"
+                                    android:background="@drawable/table_row"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:textSize="17sp"
+                                    android:padding="15dp"
+                                    android:visibility="gone"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Zone"
+                                    android:background="@drawable/table_row"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:padding="15dp"
+                                    android:textSize="17sp"
+                                    android:visibility="gone"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Employee Code"
+                                    android:background="@drawable/table_row"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:padding="15dp"
+                                    android:textSize="17sp"
+                                    android:visibility="gone"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Employee Name"
+                                    android:background="@drawable/table_row"
+                                    android:textColor="@color/white"
+                                    android:textSize="17sp"
+                                    android:textStyle="bold"
+                                    android:padding="15dp" />
+
+
+                            </TableRow>
+
+                        </TableLayout>
+
+                        <!-- Scrollable Part inside HorizontalScrollView -->
+                        <HorizontalScrollView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:scrollbars="none"
+                            app:layout_constraintStart_toEndOf="@+id/fixedTable"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_weight="1">
+
+                            <TableLayout
+                                android:id="@+id/scrollableTable"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                >
+
+                                <!-- Table Header -->
+                                <TableRow>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Department"
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:padding="15dp"
+                                        android:textSize="17sp"
+                                        android:visibility="gone"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Category"
+                                        android:textColor="@color/white"
+                                        android:background="@drawable/table_row"
+                                        android:textStyle="bold"
+                                        android:padding="15dp"
+                                        android:textSize="17sp"
+                                        android:visibility="gone"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Supervisor"
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:padding="15dp"
+                                        android:textSize="17sp"
+                                        android:visibility="gone"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Shift"
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp"
+                                        android:padding="15dp"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="SK"
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp"
+                                        android:padding="15dp" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="SK_OT"
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp"
+                                        android:padding="15dp" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="SSK"
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp"
+                                        android:padding="15dp" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="SSK_OT"
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp"
+                                        android:padding="15dp" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="USK"
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp"
+                                        android:padding="15dp" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="USK_OT"
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp"
+                                        android:padding="15dp" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="ATTND."
+                                        android:background="@drawable/table_row"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp"
+                                        android:padding="15dp" />
+
+
+                                </TableRow>
+                            </TableLayout>
+
+
+                        </HorizontalScrollView>
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="none"
+                            app:layout_constraintTop_toBottomOf="@id/fixedTable">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <!-- Fixed columns (Data) -->
+                                <TableLayout
+                                    android:id="@+id/fixedColumnTable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    />
+
+                                <!-- Scrollable columns (Data) -->
+                                <HorizontalScrollView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:scrollbars="none"
+                                    tools:ignore="SpeakableTextPresentCheck">
+
+                                    <TableLayout
+                                        android:id="@+id/scrollableColumnTable"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:stretchColumns="1"/>
+                                </HorizontalScrollView>
+                            </LinearLayout>
+                        </ScrollView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Buttons below the table -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="5dp">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp">
+                            <Button
+                                android:id="@+id/save"
+                                android:layout_width="wrap_content"
+                                android:layout_height="45dp"
+                                android:text="Save"
+                                android:textColor="@color/white"
+                                tools:ignore="TouchTargetSizeCheck" />
+                            <ProgressBar
+                                android:id="@+id/saveProgressBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:padding="5dp"
+                                android:background="@color/button"
+                                android:visibility="gone" />
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp">
+                            <Button
+                                android:id="@+id/backButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="45dp"
+                                android:text="Back"
+                                android:textColor="@color/white"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </FrameLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
