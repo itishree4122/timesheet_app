@@ -729,14 +729,15 @@ class ReportActivity : AppCompatActivity() {
         val downloadItem2 = menu?.findItem(R.id.download2)
         downloadItem2?.isEnabled = false
 
+        val optionColor = ContextCompat.getColor(this, R.color.option)
 
         // Create a SpannableString to customize the title
         val styledTitle1 = SpannableString("Download as PDF")
-        styledTitle1.setSpan(ForegroundColorSpan(Color.BLACK), 0, styledTitle1.length, 0)
+        styledTitle1.setSpan(ForegroundColorSpan(optionColor), 0, styledTitle1.length, 0)
         styledTitle1.setSpan(RelativeSizeSpan(1.1f), 0, styledTitle1.length, 0)
 
         val styledTitle2 = SpannableString("Download in XCEL")
-        styledTitle2.setSpan(ForegroundColorSpan(Color.BLACK), 0, styledTitle2.length, 0)
+        styledTitle2.setSpan(ForegroundColorSpan(optionColor), 0, styledTitle2.length, 0)
         styledTitle2.setSpan(RelativeSizeSpan(1.1f), 0, styledTitle2.length, 0)
 
         downloadItem1?.title = styledTitle1

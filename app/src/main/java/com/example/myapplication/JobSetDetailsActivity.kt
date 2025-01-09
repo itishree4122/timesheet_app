@@ -403,6 +403,7 @@ class JobSetDetailsActivity : AppCompatActivity() {
             textView.setTextColor(ContextCompat.getColor(this, R.color.white)) // Set white text color for header
         } else {
             textView.textSize = 16f // Set default text size for values
+            textView.setTextColor(ContextCompat.getColor(this, R.color.black))
         }
 
         return textView
@@ -425,14 +426,15 @@ class JobSetDetailsActivity : AppCompatActivity() {
         val downloadItem1 = menu?.findItem(R.id.download1)
         val downloadItem2 = menu?.findItem(R.id.download2)
 
+        val optionColor = ContextCompat.getColor(this, R.color.option)
 
         // Create a SpannableString to customize the title
         val styledTitle1 = SpannableString("Download as PDF")
-        styledTitle1.setSpan(ForegroundColorSpan(Color.BLACK), 0, styledTitle1.length, 0)
+        styledTitle1.setSpan(ForegroundColorSpan(optionColor), 0, styledTitle1.length, 0)
         styledTitle1.setSpan(RelativeSizeSpan(1.1f), 0, styledTitle1.length, 0)
 
         val styledTitle2 = SpannableString("Download in XCEL")
-        styledTitle2.setSpan(ForegroundColorSpan(Color.BLACK), 0, styledTitle2.length, 0)
+        styledTitle2.setSpan(ForegroundColorSpan(optionColor), 0, styledTitle2.length, 0)
         styledTitle2.setSpan(RelativeSizeSpan(1.1f), 0, styledTitle2.length, 0)
 
         downloadItem1?.title = styledTitle1

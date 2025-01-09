@@ -10,6 +10,7 @@ import android.text.InputType
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -478,8 +479,19 @@ class TimesheetActivity : AppCompatActivity() {
             // Define the shift options
             val shiftOptions = listOf("A", "B", "C", "G")
 
-            // Create an ArrayAdapter to bind the shift options to the Spinner
-            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, shiftOptions)
+            // Create a custom ArrayAdapter to bind the shift options to the Spinner
+            val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, shiftOptions) {
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val view = super.getView(position, convertView, parent)
+                    (view as TextView).setTextColor(Color.BLACK) // Set the text color for the selected item
+                    return view
+                }
+
+                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val view = super.getDropDownView(position, convertView, parent)
+                    return view
+                }
+            }
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             shiftSpinner.adapter = adapter
 
@@ -542,7 +554,10 @@ class TimesheetActivity : AppCompatActivity() {
             scrollableRow.addView(uskOtEditText)
 
             // Add CheckBox for ATTND column
-            val attendanceCheckBox = CheckBox(this)
+            val attendanceCheckBox = CheckBox(this).apply {
+                isClickable = false // Disable manual checking/unchecking
+                isFocusable = false // Prevent focus
+            }
             attendanceCheckBox.setBackgroundResource(R.drawable.checkbox_selector)
             // Set height for the CheckBox similar to other fields (e.g., 120px)
             val checkboxParams = TableRow.LayoutParams(
@@ -602,7 +617,21 @@ class TimesheetActivity : AppCompatActivity() {
 
     private fun createSpinner(options: List<String>): Spinner {
         val spinner = Spinner(this)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
+
+        // Custom ArrayAdapter to set text color
+        val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).setTextColor(Color.BLACK) // Set text color for selected view
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                return view
+            }
+        }
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
@@ -617,6 +646,7 @@ class TimesheetActivity : AppCompatActivity() {
 
         return spinner
     }
+
 
 
     // Function to create a TextView for table cells with fixed height

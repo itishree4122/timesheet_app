@@ -210,17 +210,20 @@ class HomeActivity : AppCompatActivity() {
             register?.isVisible = true
         }
 
+
+        val optionColor = ContextCompat.getColor(this, R.color.option)
+
         // Optional: Customize menu item titles
         val styledTitle1 = SpannableString("Change Password").apply {
-            setSpan(ForegroundColorSpan(Color.BLACK), 0, length, 0)
+            setSpan(ForegroundColorSpan(optionColor), 0, length, 0)
             setSpan(RelativeSizeSpan(1.1f), 0, length, 0)
         }
         val styledTitle2 = SpannableString("Logout").apply {
-            setSpan(ForegroundColorSpan(Color.BLACK), 0, length, 0)
+            setSpan(ForegroundColorSpan(optionColor), 0, length, 0)
             setSpan(RelativeSizeSpan(1.1f), 0, length, 0)
         }
         val styledTitle3 = SpannableString("Register").apply {
-            setSpan(ForegroundColorSpan(Color.BLACK), 0, length, 0)
+            setSpan(ForegroundColorSpan(optionColor), 0, length, 0)
             setSpan(RelativeSizeSpan(1.1f), 0, length, 0)
         }
 
