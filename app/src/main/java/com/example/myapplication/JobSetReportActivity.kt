@@ -666,9 +666,6 @@ class JobSetReportActivity : AppCompatActivity() {
         // Reset all EditText fields
         toDateInput.text?.clear()
         fromDateInput.text?.clear()
-        if (SharedPreferencesHelper.getIsAdmin(this)) {
-            supervisorInput.text?.clear()
-        }
 
     }
 }

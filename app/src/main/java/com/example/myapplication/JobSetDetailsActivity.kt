@@ -168,7 +168,7 @@ class JobSetDetailsActivity : AppCompatActivity() {
 
 
         // Define the dropdown items
-        val items = listOf("zone-1", "zone-2", "zone-3", "zone-4")
+        val items = listOf("zone-1", "zone-2", "zone-3", "zone-4","zone-5","zone-6","zone-7","zone-8")
 
         // Create an ArrayAdapter with your list of items
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, items)
@@ -583,7 +583,6 @@ class JobSetDetailsActivity : AppCompatActivity() {
     private fun resetFormFields() {
         // Reset all EditText fields
         zoneInput.text.clear()
-        supervisorInput.text?.clear()
         lowStubInput.text?.clear()
         anodeCoveringInput.text?.clear()
         sideMakingInput.text?.clear()

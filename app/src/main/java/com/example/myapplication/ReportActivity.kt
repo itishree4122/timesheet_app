@@ -957,9 +957,7 @@ class ReportActivity : AppCompatActivity() {
     private fun resetForm(){
         dateInput1.text?.clear()
         dateInput2.text?.clear()
-        if (SharedPreferencesHelper.getIsAdmin(this)) {
-            supervisorInput.text?.clear()
-        }
+
     }
 
     private fun showTable() {

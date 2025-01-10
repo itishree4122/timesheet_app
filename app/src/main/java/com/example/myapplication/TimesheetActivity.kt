@@ -83,7 +83,7 @@ class TimesheetActivity : AppCompatActivity() {
     private lateinit var searchProgressBar: ProgressBar
 
 
-    @SuppressLint("MissingInflatedId", "SourceLockedOrientationActivity")
+    @SuppressLint("MissingInflatedId", "SourceLockedOrientationActivity", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -170,7 +170,7 @@ class TimesheetActivity : AppCompatActivity() {
 
 
         // Define the dropdown items
-        val items = listOf("zone-1", "zone-2", "zone-3", "zone-4")
+        val items = listOf("zone-1", "zone-2", "zone-3", "zone-4","zone-5","zone-6","zone-7","zone-8")
 
         // Create an ArrayAdapter with your list of items
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, items)
@@ -235,33 +235,31 @@ class TimesheetActivity : AppCompatActivity() {
             val employeeCode = empCodeInput.text.toString()
             val employeeName = empNameInput.text.toString()
             val zone = zoneInput.text.toString()
+            val shift = shiftInput.text.toString()
             val category = ctgrInput.text.toString()
             val supervisorName = sprInput.text.toString()
 
-            // Check if all input fields are empty (for admin user, allow empty fields, for non-admin, supervisor name should be mandatory)
-            if (isAdmin) {
-                // If is_admin is true, all fields can be used for search
-                if (employeeCode.isEmpty() && employeeName.isEmpty() && zone.isEmpty() && category.isEmpty() && supervisorName.isEmpty()) {
+
+                if (zone.isEmpty() || supervisorName.isEmpty() || shift.isEmpty()) {
                     Toast.makeText(
                         this,
-                        "Please enter at least one search criterion.",
+                        "Please enter all field.",
                         Toast.LENGTH_SHORT
                     ).show()
-
                     return@setOnClickListener
                 }
-            } else {
-                // If is_admin is false, only supervisor field should be non-empty
-                if (supervisorName.isEmpty()) {
-                    Toast.makeText(
-                        this,
-                        "Please enter a supervisor name to search.",
-                        Toast.LENGTH_SHORT
-                    ).show()
 
-                    return@setOnClickListener
-                }
-            }
+//            else {
+//                // For non-admin users, supervisor_name is mandatory
+//                if (supervisorName.isEmpty()) {
+//                    Toast.makeText(
+//                        this,
+//                        "Please enter a supervisor name to search.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                    return@setOnClickListener
+//                }
+//            }
 
             // Call the API to search employee data
             searchEmployeeData(
@@ -350,24 +348,14 @@ class TimesheetActivity : AppCompatActivity() {
         // Create an instance of your API service
         val apiService = RetrofitClient.getEmployeeSearchApi()
 
-        // If not admin, only pass supervisor name
-        val searchRequest = if (isAdmin) {
-            EmployeeSearchRequest(
-                employee_code = employeeCode,
-                employee_name = employeeName,
-                zone = zone,
-                category = category,
-                supervisor_name = supervisorName
-            )
-        } else {
-            EmployeeSearchRequest(
-                employee_code = null,
-                employee_name = null,
-                zone = null,
-                category = null,
-                supervisor_name = supervisorName // Only use supervisor_name for non-admin
-            )
-        }
+        // Prepare the search request
+        val searchRequest = EmployeeSearchRequest(
+            employee_code = if (isAdmin || employeeCode?.isNotEmpty() == true) employeeCode else null,
+            employee_name = if (isAdmin || employeeName?.isNotEmpty() == true) employeeName else null,
+            zone = if (isAdmin || zone?.isNotEmpty() == true) zone else null,
+            category = if (isAdmin || category?.isNotEmpty() == true) category else null,
+            supervisor_name = supervisorName // Supervisor name is always included
+        )
 
         // Call the API to search for employee data
         apiService.searchEmployeeData("Bearer $accessToken", searchRequest)
@@ -382,7 +370,6 @@ class TimesheetActivity : AppCompatActivity() {
                         val employeeDataList = response.body()
 
                         if (!employeeDataList.isNullOrEmpty()) {
-
                             // Pass the list directly to addDataToTable
                             addDataToTable(employeeList = employeeDataList)
 
@@ -870,31 +857,15 @@ class TimesheetActivity : AppCompatActivity() {
     private fun resetForm(){
 
         zoneInput.text?.clear()
+        shiftInput.text?.clear()
         empCodeInput.text?.clear()
         empNameInput.text?.clear()
         deptInput.text?.clear()
         ctgrInput.text?.clear()
-        // Only clear sprInput if the user is an admin
-        if (SharedPreferencesHelper.getIsAdmin(this)) {
-            sprInput.text?.clear()
-        }
+
 
     }
 
-    // Method to set the selected shift for all rows in the table
-    fun setShiftForAllRows(selectedShift: String) {
-        // Loop through all rows (assuming you have a list of rows or a TableLayout reference)
-        for (i in 0 until cardView2.childCount) {
-            val row = cardView2.getChildAt(i) as TableRow
-            val shiftSpinner = row.getChildAt(0) as Spinner  // Assuming the Spinner is the first child of the row
-
-            // Get the position of the selected shift in the adapter
-            val position = (shiftSpinner.adapter as ArrayAdapter<String>).getPosition(selectedShift)
-
-            // Set the selected shift in the Spinner
-            shiftSpinner.setSelection(position)
-        }
-    }
 
 
 
