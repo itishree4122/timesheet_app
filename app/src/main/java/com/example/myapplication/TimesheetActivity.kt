@@ -30,11 +30,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.myapplication.backend_api.AuthRepository
-import com.example.myapplication.backend_api.AuthViewModel
-import com.example.myapplication.backend_api.AuthViewModelFactory
 import com.example.myapplication.backend_api.RetrofitClient
 import com.example.myapplication.backend_api.SharedPreferencesHelper
 import com.example.myapplication.interface_api.EmployeeData
@@ -249,17 +245,6 @@ class TimesheetActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-//            else {
-//                // For non-admin users, supervisor_name is mandatory
-//                if (supervisorName.isEmpty()) {
-//                    Toast.makeText(
-//                        this,
-//                        "Please enter a supervisor name to search.",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//            }
 
             // Call the API to search employee data
             searchEmployeeData(
@@ -642,7 +627,7 @@ class TimesheetActivity : AppCompatActivity() {
         textView.text = text
         textView.setPadding(15, 15, 15, 15)
         textView.setBackgroundResource(R.drawable.table_column)
-        textView.setTextColor(resources.getColor(R.color.black)) // Adjust color as needed
+        textView.setTextColor(ContextCompat.getColor(this, R.color.black)) // Updated to use ContextCompat
         textView.textSize = 16f
 
         // Set the height of the TextView to match the EditText height
@@ -656,6 +641,7 @@ class TimesheetActivity : AppCompatActivity() {
         return textView
     }
 
+
     private fun createEditText(): EditText {
         val editText = EditText(this)
         editText.layoutParams = TableRow.LayoutParams(
@@ -664,13 +650,14 @@ class TimesheetActivity : AppCompatActivity() {
         )
         editText.setPadding(15, 15, 15, 15)
         editText.setBackgroundResource(R.drawable.table_column)
-        editText.setTextColor(resources.getColor(R.color.black))
+        editText.setTextColor(ContextCompat.getColor(this, R.color.black)) // Updated to use ContextCompat
         editText.textSize = 16f
         editText.maxLines = 1
         editText.inputType = InputType.TYPE_CLASS_NUMBER
 
         return editText
     }
+
 
     // Function to collect all table data including fixed and scrollable rows
     private fun collectTableData(): List<EmployeeData> {

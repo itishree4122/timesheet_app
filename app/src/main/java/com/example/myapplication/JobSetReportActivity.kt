@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -279,7 +277,12 @@ class JobSetReportActivity : AppCompatActivity() {
                 Toast.makeText(this@JobSetReportActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+
+        showTable()
+        hideForm()
     }
+
+
 
     private fun populateTable(data: JobSetReportResponse) {
         // Clear any existing rows in the tables
@@ -294,85 +297,41 @@ class JobSetReportActivity : AppCompatActivity() {
 
         // Sort job set summary and attendance records by date in ascending order
         val sortedJobSetSummary = data.job_set_summary.sortedBy { it.date }
-        val sortedAttendanceRecords = data.attendance_records.sortedBy { it.date }
 
         // Track unique entries by date and supervisor
         val uniqueEntries = mutableSetOf<Pair<String, String>>() // Pair of date and supervisor name
 
         // Add data rows by merging attendance and job set summary
         sortedJobSetSummary.forEach { summary ->
-            // Get the attendance record for the same date, if it exists
             val attendanceRecord = attendanceMap[summary.date]
 
-            // If attendance record doesn't exist, use default values (0 for total SK, total SSK, total USK)
-            val totalSk = attendanceRecord?.total_sk?.toString() ?: "0"
-            val totalSsk = attendanceRecord?.total_ssk?.toString() ?: "0"
-            val totalUsk = attendanceRecord?.total_usk?.toString() ?: "0"
+            // Round up skilled, semi-skilled, and unskilled values
+            val roundedSkilled = ceil(summary.skilled).toInt()
+            val roundedSemiSkilled = ceil(summary.semi_skilled).toInt()
+            val roundedUnskilled = ceil(summary.unskilled).toInt()
 
-            // If supervisor name is missing, fill with "NA"
-            val supervisorName = if (summary.supervisor_name.isNullOrBlank()) "NA" else summary.supervisor_name
+            // Calculate highlight flags for each column
+            val highlightSkilled = roundedSkilled < (attendanceRecord?.total_sk ?: 0)
+            val highlightSemiSkilled = roundedSemiSkilled < (attendanceRecord?.total_ssk ?: 0)
+            val highlightUnskilled = roundedUnskilled < (attendanceRecord?.total_usk ?: 0)
 
-            // Check if this date-supervisor pair is already added
-            if (!uniqueEntries.add(Pair(summary.date, supervisorName))) {
-                // Skip this row as it is a duplicate
-                return@forEach
-            }
-
-            // Highlight row if skilled, semi skilled, or unskilled is less than the total values
-            val highlightRow = summary.skilled < (attendanceRecord?.total_sk ?: 0) ||
-                    summary.semi_skilled < (attendanceRecord?.total_ssk ?: 0) ||
-                    summary.unskilled < (attendanceRecord?.total_usk ?: 0)
-
-            // Round up skilled, semi_skilled, and unskilled values
-            val skilledRounded = ceil(summary.skilled).toInt()
-            val semiSkilledRounded = ceil(summary.semi_skilled).toInt()
-            val unskilledRounded = ceil(summary.unskilled).toInt()
-
-            // Add the merged row (date, supervisor, skilled, semi-skilled, unskilled, total SK, total SSK, total USK)
+            // Add row with column-specific highlight flags
             addRow(
                 fixedColumn = summary.date,
                 scrollableColumns = listOf(
-                    supervisorName,
-                    skilledRounded.toString(),
-                    semiSkilledRounded.toString(),
-                    unskilledRounded.toString(),
-                    totalSk,
-                    totalSsk,
-                    totalUsk
-                ),
-                highlightRow = highlightRow
+                    Pair(summary.supervisor_name.ifBlank { "NA" }, false), // Supervisor name is not highlighted
+                    Pair(roundedSkilled.toString(), highlightSkilled),
+                    Pair(roundedSemiSkilled.toString(), highlightSemiSkilled),
+                    Pair(roundedUnskilled.toString(), highlightUnskilled),
+                    Pair(attendanceRecord?.total_sk.toString(), false),
+                    Pair(attendanceRecord?.total_ssk.toString(), false),
+                    Pair(attendanceRecord?.total_usk.toString(), false)
+                )
             )
         }
-
-        // If there are any attendance records that don't have corresponding job set summary, add them too
-        sortedAttendanceRecords.forEach { record ->
-            if (data.job_set_summary.none { it.date == record.date }) {
-                // Check if this date-supervisor pair is already added
-                if (!uniqueEntries.add(Pair(record.date, "NA"))) {
-                    // Skip this row as it is a duplicate
-                    return@forEach
-                }
-
-                addRow(
-                    fixedColumn = record.date,
-                    scrollableColumns = listOf(
-                        "NA", // Supervisor name is missing for these rows
-                        "0",  // Skilled
-                        "0",  // Semi Skilled
-                        "0",  // Unskilled
-                        record.total_sk.toString(),
-                        record.total_ssk.toString(),
-                        record.total_usk.toString()
-                    ),
-                    highlightRow = false // No need to highlight since it's an attendance-only record
-                )
-            }
-        }
-
-        // Hide the form and show the table
-        hideForm()
-        showTable()
     }
+
+
 
     private fun addHeaders() {
         // Fixed column header (e.g., "Date")
@@ -389,26 +348,29 @@ class JobSetReportActivity : AppCompatActivity() {
         scrollableColumnTable.addView(scrollableHeaderRow)
     }
 
-    private fun addRow(fixedColumn: String, scrollableColumns: List<String>, highlightRow: Boolean) {
-        // Add data to the fixed column table
-        val fixedRow = TableRow(this)
-        fixedRow.addView(createTextView(fixedColumn))
-        fixedColumnTable.addView(fixedRow)
 
-        // Add data to the scrollable column table
-        val scrollableRow = TableRow(this)
+    private fun addRow(fixedColumn: String, scrollableColumns: List<Pair<String, Boolean>>) {
+    // Add data to the fixed column table
+    val fixedRow = TableRow(this)
+    fixedRow.addView(createTextView(fixedColumn))
+    fixedColumnTable.addView(fixedRow)
 
-        // Add the cells with conditional highlighting
-        scrollableColumns.forEachIndexed { index, columnData ->
-            val textView = createTextView(columnData)
-            if (highlightRow && index in 1..3) {  // Highlight "Skilled", "Semi-skilled", "Unskilled"
-                textView.setBackgroundColor(resources.getColor(R.color.highlight)) // Set the color for highlighting
-            }
-            scrollableRow.addView(textView)
+    // Add data to the scrollable column table
+    val scrollableRow = TableRow(this)
+
+    // Add the cells with conditional highlighting for each column
+    scrollableColumns.forEach { (columnData, shouldHighlight) ->
+        val textView = createTextView(columnData)
+        if (shouldHighlight) {
+            textView.setBackgroundColor(ContextCompat.getColor(this, R.color.highlight))
+            // Set the color for highlighting
         }
-
-        scrollableColumnTable.addView(scrollableRow)
+        scrollableRow.addView(textView)
     }
+
+    scrollableColumnTable.addView(scrollableRow)
+}
+
 
     private fun createHeaderTextView(content: String): TextView {
         return TextView(this).apply {
@@ -416,12 +378,11 @@ class JobSetReportActivity : AppCompatActivity() {
             setPadding(16, 32, 16, 32) // Increased padding to increase the height
             textSize = 16f // Slightly larger text for headers
             setBackgroundResource(R.drawable.table_row) // Set background from drawable resource
-            setTextColor(resources.getColor(R.color.white)) // Set text color for header
+            setTextColor(ContextCompat.getColor(context, R.color.white)) // Set text color for header
             gravity = Gravity.CENTER // Center align text
             setTypeface(null, Typeface.BOLD) // Bold text for headers
         }
     }
-
 
     private fun createTextView(content: String): TextView {
         return TextView(this).apply {
@@ -429,11 +390,10 @@ class JobSetReportActivity : AppCompatActivity() {
             setPadding(16, 32, 16, 32) // Increased padding to increase the height
             textSize = 14f
             setBackgroundResource(R.drawable.table_column) // Optional styling for cells
-            setTextColor(resources.getColor(R.color.black))
+            setTextColor(ContextCompat.getColor(context, R.color.black)) // Use ContextCompat for color
             gravity = Gravity.CENTER // Center align text
         }
     }
-
 
     //Creating Download options
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

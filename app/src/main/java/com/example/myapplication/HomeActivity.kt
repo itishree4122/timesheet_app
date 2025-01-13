@@ -7,7 +7,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -15,7 +14,6 @@ import android.text.style.RelativeSizeSpan
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView

@@ -30,7 +30,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.marginEnd
 import com.example.myapplication.backend_api.RetrofitClient
 import com.example.myapplication.backend_api.SharedPreferencesHelper
 import com.example.myapplication.interface_api.AttendanceRecord
@@ -45,7 +44,6 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.HorizontalAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.UnitValue
-import org.apache.poi.hssf.record.Margin
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -404,43 +402,12 @@ class ReportActivity : AppCompatActivity() {
             totalOTForMonth += totalOT
         }
 
-//        // Add total row for totals across all employees for each date's columns and Total Attendance / Total OT
-//        val totalRow = TableRow(this)
-//        totalRow.addView(createDataTextView(" "))
-//
-//        // Add blank cells for "Employee Name", "Zone", "Department", "Category", "Supervisor"
-//        repeat(4) {
-//            totalRow.addView(createDataTextView(""))
-//        }
-//
-//        // Add totals for each date's columns (SK, SK OT, SSK, SSK OT, USK, USK OT)
-//        dateHeaders.forEachIndexed { index, _ ->
-//            totalRow.addView(createDataTextView(totalSk[index].toString()))
-//            totalRow.addView(createDataTextView(totalSkOt[index].toString()))
-//            totalRow.addView(createDataTextView(totalSsk[index].toString()))
-//            totalRow.addView(createDataTextView(totalSskOt[index].toString()))
-//            totalRow.addView(createDataTextView(totalUsk[index].toString()))
-//            totalRow.addView(createDataTextView(totalUskOt[index].toString()))
-//        }
-//
-//        // Add total attendance and total OT for the whole month
-//        totalRow.addView(createDataTextView(totalAttendanceForMonth.toString()))
-//        totalRow.addView(createDataTextView(totalOTForMonth.toString()))
-//
-//        // Add the total row to the scrollable table
-//        scrollableColumnTable.addView(totalRow)
-//
-//        // Add the same total row to the fixed table (if necessary, for the "Employee Code" column)
-//        val fixedTotalRow = TableRow(this)
-//        fixedTotalRow.addView(createDataTextView("Total"))
-//        fixedColumnTable.addView(fixedTotalRow)
-
         // Add totals row to the fixed column
         val fixedTotalRow = TableRow(this)
         fixedTotalRow.addView(createDataTextView("Total")) // Add "Total" in the fixed column
         fixedColumnTable.addView(fixedTotalRow)
 
-// Add totals row to the scrollable table
+        // Add totals row to the scrollable table
         val scrollableTotalRow = TableRow(this)
 
 
@@ -465,179 +432,6 @@ class ReportActivity : AppCompatActivity() {
         hideForm()
         showTable()
     }
-
-//    fun displayDataInTable1(records: List<AttendanceRecord>) {
-//        // Sort records by employee_name
-//        val sortedRecords = records.sortedBy { it.employee_name }
-//
-//        // Clear previous data
-//        fixedColumnTable.removeAllViews()
-//        scrollableColumnTable.removeAllViews()
-//
-//        // Add header for the fixed column (Employee Code)
-//        val fixedHeaderRow = TableRow(this)
-//        fixedHeaderRow.addView(createHeaderTextView2("Employee Code"))
-//        fixedColumnTable.addView(fixedHeaderRow)
-//
-//        // Add subheader for the fixed column
-//        val fixedSubHeaderRow = TableRow(this)
-//        val subHeaderTextView = createHeaderTextView1(" Employee Code ")
-//
-//// Set layout parameters with increased height
-//        val layoutParams = TableRow.LayoutParams(
-//            TableRow.LayoutParams.MATCH_PARENT,
-//            136 // Specify height in pixels (e.g., 100px)
-//        ).apply {
-//            topMargin = 30 // Add top margin if needed
-//        }
-//
-//// Apply the layout parameters to the TextView
-//        subHeaderTextView.layoutParams = layoutParams
-//
-//// Add padding for additional spacing inside the TextView (optional)
-//        subHeaderTextView.setPadding(0, 20, 0, 20) // Top and bottom padding
-//
-//        fixedSubHeaderRow.addView(subHeaderTextView)
-//        fixedColumnTable.addView(fixedSubHeaderRow)
-//
-//
-//
-//        // Add headers for the scrollable table
-//        val scrollableMainHeaderRow = TableRow(this)
-//        val scrollableSubHeaderRow = TableRow(this)
-//
-//        val fixedColumns = listOf("Employee Name", "Zone", "Department", "Category", "Supervisor")
-//        fixedColumns.forEach { header ->
-//            scrollableMainHeaderRow.addView(createHeaderTextView2(header))
-//            scrollableSubHeaderRow.addView(createHeaderTextView(header))
-//        }
-//
-//        // Parse and sort dates
-//        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-//        val dateHeaders = sortedRecords.map { it.date_of_work }.distinct()
-//            .sortedBy { dateFormat.parse(it) }
-//
-//        // Add Date headers with subheaders
-//        dateHeaders.forEach { date ->
-//            val dateHeaderView = createHeaderTextView(date)
-//            dateHeaderView.layoutParams = TableRow.LayoutParams().apply {
-//                span = 6
-//            }
-//            scrollableMainHeaderRow.addView(dateHeaderView)
-//
-//            listOf(" SK ", " OT ", " SSK ", " OT ", " USK ", " OT ").forEach {
-//                scrollableSubHeaderRow.addView(createHeaderTextView(it))
-//            }
-//        }
-//
-//        // Add total attendance and OT columns
-//        scrollableMainHeaderRow.addView(createHeaderTextView2("Total Attendance"))
-//        scrollableMainHeaderRow.addView(createHeaderTextView2("Total OT"))
-//        scrollableSubHeaderRow.addView(createHeaderTextView("Total Attendance"))
-//        scrollableSubHeaderRow.addView(createHeaderTextView("Total OT"))
-//
-//        // Add header rows
-//        scrollableColumnTable.addView(scrollableMainHeaderRow)
-//        scrollableColumnTable.addView(scrollableSubHeaderRow)
-//
-//        // Initialize total counters
-//        val totalSk = MutableList(dateHeaders.size) { 0 }
-//        val totalSkOt = MutableList(dateHeaders.size) { 0 }
-//        val totalSsk = MutableList(dateHeaders.size) { 0 }
-//        val totalSskOt = MutableList(dateHeaders.size) { 0 }
-//        val totalUsk = MutableList(dateHeaders.size) { 0 }
-//        val totalUskOt = MutableList(dateHeaders.size) { 0 }
-//        var totalAttendanceForMonth = 0
-//        var totalOTForMonth = 0
-//
-//        // Populate rows
-//        sortedRecords.forEach { record ->
-//            val fixedRow = TableRow(this)
-//            fixedRow.addView(createDataTextView(record.employee_code))
-//            fixedColumnTable.addView(fixedRow)
-//
-//            val scrollableRow = TableRow(this)
-//            val rowData = mutableListOf<String>()
-//
-//            // Add fixed column data
-//            rowData.add(record.employee_name)
-//            rowData.add(record.zone)
-//            rowData.add(record.department)
-//            rowData.add(record.category)
-//            rowData.add(record.supervisor_name)
-//
-//            // Add date-based data
-//            var totalAttendance = 0
-//            var totalOT = 0
-//            dateHeaders.forEachIndexed { index, date ->
-//                val recordForDate = sortedRecords.find { it.date_of_work == date && it.employee_code == record.employee_code }
-//                val sk = recordForDate?.sk ?: 0
-//                val skOt = recordForDate?.sk_ot ?: 0
-//                val ssk = recordForDate?.ssk ?: 0
-//                val sskOt = recordForDate?.ssk_ot ?: 0
-//                val usk = recordForDate?.usk ?: 0
-//                val uskOt = recordForDate?.usk_ot ?: 0
-//
-//                totalSk[index] += sk
-//                totalSkOt[index] += skOt
-//                totalSsk[index] += ssk
-//                totalSskOt[index] += sskOt
-//                totalUsk[index] += usk
-//                totalUskOt[index] += uskOt
-//
-//                rowData.add(sk.toString())
-//                rowData.add(skOt.toString())
-//                rowData.add(ssk.toString())
-//                rowData.add(sskOt.toString())
-//                rowData.add(usk.toString())
-//                rowData.add(uskOt.toString())
-//
-//                totalAttendance += sk + ssk + usk
-//                totalOT += skOt + sskOt + uskOt
-//            }
-//
-//            rowData.add(totalAttendance.toString())
-//            rowData.add(totalOT.toString())
-//
-//            rowData.forEach { value ->
-//                scrollableRow.addView(createDataTextView(value))
-//            }
-//            scrollableColumnTable.addView(scrollableRow)
-//
-//            totalAttendanceForMonth += totalAttendance
-//            totalOTForMonth += totalOT
-//        }
-//
-//        // Add totals row to the fixed column
-//        val fixedTotalRow = TableRow(this)
-//        fixedTotalRow.addView(createDataTextView("Total")) // Add "Total" in the fixed column
-//        fixedColumnTable.addView(fixedTotalRow)
-//
-//// Add totals row to the scrollable table
-//        val scrollableTotalRow = TableRow(this)
-//
-//
-//        repeat(5) {
-//            scrollableTotalRow.addView(createDataTextView(""))
-//        }
-//
-//        dateHeaders.forEachIndexed { index, _ ->
-//            scrollableTotalRow.addView(createDataTextView(totalSk[index].toString()))
-//            scrollableTotalRow.addView(createDataTextView(totalSkOt[index].toString()))
-//            scrollableTotalRow.addView(createDataTextView(totalSsk[index].toString()))
-//            scrollableTotalRow.addView(createDataTextView(totalSskOt[index].toString()))
-//            scrollableTotalRow.addView(createDataTextView(totalUsk[index].toString()))
-//            scrollableTotalRow.addView(createDataTextView(totalUskOt[index].toString()))
-//        }
-//
-//        scrollableTotalRow.addView(createDataTextView(totalAttendanceForMonth.toString()))
-//        scrollableTotalRow.addView(createDataTextView(totalOTForMonth.toString()))
-//        scrollableColumnTable.addView(scrollableTotalRow)
-//
-//        showTable()
-//        hideForm()
-//    }
-
 
     // Helper function to create header TextViews with bold text and background
     private fun createHeaderTextView(text: String): TextView {
@@ -676,33 +470,11 @@ class ReportActivity : AppCompatActivity() {
         }
     }
 
-    private fun createHeaderTextView1(text: String): TextView {
-        return TextView(this).apply {
-            this.text = text
-            setBackgroundResource(R.drawable.table_row)  // Set a background (assuming you have this drawable)
-            setTypeface(null, Typeface.BOLD)  // Set bold text style
-            setTextColor(Color.WHITE)  // Set text color to black
-            gravity = Gravity.CENTER  // Center the text inside the TextView
-
-        }
-    }
-
     // Helper function to convert dp to px for consistency
     fun dpToPx(dp: Int): Int {
         val density = resources.displayMetrics.density
         return (dp * density).toInt()
     }
-    private fun createHeaderTextView2(s: String): View? {
-        return TextView(this).apply {
-            this.text = text
-            setPadding(0, 0, 0, 0)  // Add padding to make the text more readable
-            setTypeface(null, Typeface.BOLD)  // Set bold text style
-            setTextColor(Color.WHITE)  // Set text color to black
-            gravity = Gravity.CENTER  // Center the text inside the TextView
-
-        }
-    }
-
 
     // Helper function to create data TextViews with consistent styling
     private fun createDataTextView(text: String): TextView {
